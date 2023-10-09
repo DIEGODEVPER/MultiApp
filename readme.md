@@ -9,9 +9,7 @@ Para ejecutar el código necesitas:
 7. Ejecutar el código principal -> python download_music_from_youtube.py
 
 
-Suscribete para más contenido de automatización con python: https://www.youtube.com/@classtonidev
 
-Si me quieres invitar a un cafe: https://www.buymeacoffee.com/antoniovalv
 
 
 

@@ -43,7 +43,7 @@ selected = option_menu(
 #imagen_combine_pdf = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\combine-pdf.png")
 #imagen_usuario = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\usuario.png")
 
-Imagen_welcome = ("assets/bienvenido.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
+Imagen_welcome = ("assets/Bienvenido.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_Google  = ("assets/google.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_yt      = ("assets/logoyt.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_camaro = ("assets/camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario

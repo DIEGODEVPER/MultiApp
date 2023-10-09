@@ -69,7 +69,7 @@ with st.sidebar:
    st.image(Imagen_Google, caption="")
    
    st.write("###")
-   st.warning("Para poder usar esta app se solicita una suscripcion")
+   st.warning("Esta App es totalmente gratuita, pero nos gustaria tener un apoyo economico de tu parte para poder continuar")
    #pagar= st.button(Label = "Pagar suscripcion") # https://mpago.la/19tVAX9")
    #add_auth(required=True)
    #####################################
@@ -78,7 +78,7 @@ with st.sidebar:
    st.link_button(label = "Tu aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
                                   # url="https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114"
    #st.write("https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114")
-   st.success("Ya puedes acceder a todas las funciones de esta app")
+   st.success("Muchas gracias")
    
    
    # Using object notation

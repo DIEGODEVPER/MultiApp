@@ -181,7 +181,7 @@ if selected == "Extraer texto de video":
    #Lectura de video:
    ruta = st.file_uploader("Subir Video")
 
-   clip = mp.VideoFileClip(ruta)
+   #clip = mp.VideoFileClip(ruta)
    
 
    st.write("Todo bien")

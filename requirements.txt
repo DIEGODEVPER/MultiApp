@@ -9,5 +9,5 @@ rembg  #==2.0.50
 st_paywall==0.1.5
 streamlit==1.27.0
 streamlit_option_menu==0.3.6
-speech_recognition
+speechrecognition
 moviepy

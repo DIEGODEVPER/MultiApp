@@ -75,7 +75,7 @@ with st.sidebar:
    #####################################
    #autenticacion + suscripcion
    #st.write("Pagar a:")
-   st.link_button(label = "Tu aporte", url="link.mercadopago.com.pe/appmultiusosperu" )
+   st.link_button(label = "Tu aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
                                   # url="https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114"
    #st.write("https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114")
    st.success("Ya puedes acceder a todas las funciones de esta app")

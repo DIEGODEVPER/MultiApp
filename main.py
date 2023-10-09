@@ -5,7 +5,7 @@ from streamlit_option_menu import option_menu
 import time
 #from st_paywall import add_auth  #pip install st-paywall
 #---YT
-import speechrecognition  as sr
+import speech_recognition  as sr
 import moviepy.editor as mp
 #import pytube
 from pytube import YouTube

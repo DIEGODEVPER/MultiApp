@@ -43,7 +43,7 @@ selected = option_menu(
 #imagen_combine_pdf = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\combine-pdf.png")
 #imagen_usuario = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\usuario.png")
 
-Imagen_welcome = ("assets/welcome2.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
+Imagen_welcome = ("assets/bienvenido.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_Google  = ("assets/google.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_yt      = ("assets/logoyt.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_camaro = ("assets/camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
@@ -54,12 +54,12 @@ imagen_usuario = ("assets/usuario.png")
 
 if selected == "Home":
    #st.image("assets/welcome.jpg") #No me cuadro
-   st.image(Imagen_welcome, caption="")
+   st.image(Imagen_welcome, caption="", use_column_width=True)
    st.write("###")
-   st.write("Estas a un paso de poder usar todas las herramientas de esta app. Solo necesitas estar suscrito")
+   st.write("Esperamos disfrutes de nuestro producto.")
    st.write("En esta app podras:")
    st.write("- Descargar videos de Youtube")
-   st.write("- Eliminar el fonde de una imagen")
+   st.write("- Eliminar el fondo de una imagen")
    st.write("- Unir varios PDFs en uno solo")
    st.write("###")
    st.write("Te da la bienvenida el programador DGSR")
@@ -78,7 +78,7 @@ with st.sidebar:
    st.link_button(label = "Tu aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
                                   # url="https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114"
    #st.write("https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114")
-   st.success("Muchas gracias")
+   st.success("!!! Muchas gracias ¡¡¡")
    
    
    # Using object notation

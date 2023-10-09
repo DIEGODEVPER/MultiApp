@@ -3,7 +3,7 @@
 #---From principal
 from streamlit_option_menu import option_menu
 import time
-from st_paywall import add_auth  #pip install st-paywall
+#from st_paywall import add_auth  #pip install st-paywall
 #---YT
 #import pytube
 from pytube import YouTube

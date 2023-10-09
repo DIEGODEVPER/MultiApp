@@ -5,6 +5,8 @@ from streamlit_option_menu import option_menu
 import time
 #from st_paywall import add_auth  #pip install st-paywall
 #---YT
+import speech_recognition  as sr
+import moviepy.editor as mp
 #import pytube
 from pytube import YouTube
 import pandas as pd
@@ -22,6 +24,8 @@ import io                 # Importa la biblioteca 'io' para trabajar con datos e
 #import os                 # Importa la biblioteca 'os' para realizar operaciones con el sistema operativo
 
 
+
+
 #---FROMT---
 #--Pantalla inicial
 st.set_page_config(page_title="Multiapp", page_icon="", layout="centered")
@@ -31,8 +35,8 @@ st.write("###")
 #--Navigation Menu--
 selected = option_menu(
     menu_title= None,
-    options= ["Home","Youtube Donwloader","Eliminar Fondo", "Unir PDFs","Cuenta"],
-    icons=["house","caret-right-square-fill","camera","filetype-pdf","file-person"], # https://icons.getbootstrap.com/ #Me falta saber como importarlos
+    options= ["Home","Youtube Donwloader","Extraer texto de video","Eliminar Fondo", "Unir PDFs","Cuenta"],
+    icons=["house","caret-right-square-fill","body-text","camera","filetype-pdf","file-person"], # https://icons.getbootstrap.com/ #Me falta saber como importarlos
     orientation="horizontal",
 )
 #Abrir las imagenes --esta por mejorar 
@@ -46,6 +50,7 @@ selected = option_menu(
 Imagen_welcome = ("assets/Bienvenido.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_Google  = ("assets/google.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_yt      = ("assets/logoyt.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
+imagen_convertidor = ("assets/Convertidoratxt.png")
 Imagen_camaro = ("assets/camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 imagen_combine_pdf = ("assets/combine-pdf.png")
 imagen_usuario = ("assets/usuario.png")
@@ -164,6 +169,23 @@ if selected == "Youtube Donwloader":
             with st.spinner('Descargando...'):
                  time.sleep(5)
             st.success('Done!') 
+
+if selected == "Extraer texto de video":
+   
+   #---FRONT---
+   
+   #st.image("assets/logoyt.jpg")
+   st.image(imagen_convertidor,caption="", width= 800)   #use_column_width=True cuando quiero que hagarre todo el ancho
+   st.header("Convertidor de audio-video a texto")
+
+   #Lectura de video:
+   ruta = st.file_uploader("Subir Video")
+
+   clip = mp.VideoFileClip(ruta)
+   
+
+   st.write("Todo bien")
+
 
 if selected == "Eliminar Fondo":
  

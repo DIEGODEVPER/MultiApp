@@ -23,6 +23,7 @@ from rembg import remove  # Importa la funcion 'remove' del paquete 'rembg' para
 import io                 # Importa la biblioteca 'io' para trabajar con datos en memoria
 #import os                 # Importa la biblioteca 'os' para realizar operaciones con el sistema operativo
 
+from tempfile import NamedTemporaryFile
 
 
 
@@ -140,35 +141,41 @@ if selected == "Youtube Donwloader":
       
         elif "youtube.com" in link_video:
             #st.warning("Estas aqui") 
-            yt = YouTube(link_video)
-            if formato == "Video (.mp4)":
-                if resolucion == "480p":
-                   video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
-                   #video.download('./YT')
-                   video.download(filename=f"{video.title}.mp4")
-                   for e in video:
-                       st.write(e)
-                   st.success("480p")
-                elif resolucion == "720p":
-                     video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
+            try:
+               yt = YouTube(link_video)
+
+            except YouTube.exceptions.VideoUnavailable:
+                   st.write("Este video no esta disponible")
+            
+            else:
+               if formato == "Video (.mp4)":
+                  if resolucion == "480p":
+                     video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
+                      #video.download('./YT')
+                     video.download(filename=f"{video.title}.mp4")
+                     for e in video:
+                        st.write(e)
+                     st.success("480p")
+                  elif resolucion == "720p":
+                      video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
+                      #video.download('./YT')
+                      video.download(filename=f"{video.title}.mp4")
+                      st.success("720p")
+                  elif resolucion == "La mas alta":
+                     video = yt.streams.get_highest_resolution() #Para obtener la resolucion maxima del video
                      #video.download('./YT')
                      video.download(filename=f"{video.title}.mp4")
-                     st.success("720p")
-                elif resolucion == "La mas alta":
-                    video = yt.streams.get_highest_resolution() #Para obtener la resolucion maxima del video
-                    #video.download('./YT')
-                    video.download(filename=f"{video.title}.mp4")
-                    #video.download(filename=f"videodescargado.mp4")
-                    st.success("alta")
-            else:
-               video =  yt.streams.filter(only_audio=True).first() #Para obtener el audio
-               video.download(filename=f"{video.title}.mp3")
-               #video.download('./YT')
-               st.success("audio")
+                     #video.download(filename=f"videodescargado.mp4")
+                     st.success("alta")
+               else:
+                   video =  yt.streams.filter(only_audio=True).first() #Para obtener el audio
+                   video.download(filename=f"{video.title}.mp3")
+                   #video.download('./YT')
+                   st.success("audio")
          
-            with st.spinner('Descargando...'):
-                 time.sleep(5)
-            st.success('Done!') 
+               with st.spinner('Descargando...'):
+                    time.sleep(5)
+                    st.success('Done!') 
 
 if selected == "Extraer texto de video":
    
@@ -179,10 +186,52 @@ if selected == "Extraer texto de video":
    st.header("Convertidor de audio-video a texto")
 
    #Lectura de video:
-   ruta = st.file_uploader("Subir Video")
-
-   #clip = mp.VideoFileClip(ruta)
    
+   #ruta = st.file_uploader("Subir Video", type = ["mp4"])
+   #st.write(ruta.name)
+   #clip = mp.VideoFileClip(ruta.name)
+
+   #from tempfile import NamedTemporaryFile
+   #import streamlit as st
+
+   uploaded_file = st.file_uploader("File upload", type='mp4')
+   st.write(uploaded_file)
+   with NamedTemporaryFile(dir='.', suffix='.mp4') as f:
+        f.write(uploaded_file.getbuffer())
+        f.write(f.name)
+        #your_function_which_takes_a_path(f.name)
+   
+   clip = mp.VideoFileClip(f.name)
+
+   
+   clip.audio.write_audiofile("extracted_audio.wav")
+
+   #Iniciar 'Speechrecognition':
+   r = sr.Recognizer()
+
+   #Lectura de archivo de audio:
+   audio = sr.AudioFile("extracted_audio.wav")
+
+   # Lectura de audio
+   with audio as source:
+       r.adjust_for_ambient_noise(source)
+       audio_file = r.record(source)
+
+   # Reconocimiento de voz  en audio:
+   resul = r.recognize_google(audio_file, language= 'es-ES')
+
+   #Escritura de archivo de texto
+
+   with open('recognized_txt','w') as file:
+        file.write("Recognized speech: \n")
+        file.write(resul)
+
+   print("\nTask COMPLETED")
+
+
+
+
+
 
    st.write("Todo bien")
 

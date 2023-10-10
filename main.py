@@ -129,58 +129,64 @@ if selected == "Youtube Donwloader":
       resolucion = c2.radio(label="¿En qué resolucion?", options=["480p", "720p", "La mas alta"])
 
    link_video = st.text_input(label="Link del video")
+   st.write(link_video)
+   yt2 = YouTube(link_video)
+
+   try:
+       streams = yt2.streams
+   except pytube.exceptions.VideoUnavailable:
+        st.write("Este video no esta disponible")
+        Disponible = False
+   else:
+        st.write("Este video si esta disponible")
+        disponible = True
 
    descargar = st.button(label = "Descargar")
    
-   yt = YouTube(link_video)
+   #yt = YouTube(link_video)
 
-   try:
-       streams = yt.streams
-   except pytube.exceptions.VideoUnavailable:
-        st.write("Este video no esta disponible")
-   else:
-        st.write("Este video si esta disponible")
-       
-        if descargar:
-           if link_video == "":
-              st.warning("Debes introducir un link")
+   if disponible:
+      if descargar:
+         if link_video == "":
+            st.warning("Debes introducir un link")
       
-           elif "youtube.com" not in link_video:
+         elif "youtube.com" not in link_video:
               st.warning("Debes introducir un link de youtube")
       
-           elif "youtube.com" in link_video:
-               #st.warning("Estas aqui") 
-               #yt = YouTube(link_video)
+         elif "youtube.com" in link_video:
+              #st.warning("Estas aqui") 
+              yt = YouTube(link_video)
                        
-               if formato == "Video (.mp4)":
-                  if resolucion == "480p":
-                     video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
-                      #video.download('./YT')
-                     video.download(filename=f"{video.title}.mp4")
-                     for e in video:
-                        st.write(e)
-                     st.success("480p")
-                  elif resolucion == "720p":
-                      video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
-                      #video.download('./YT')
-                      video.download(filename=f"{video.title}.mp4")
-                      st.success("720p")
-                  elif resolucion == "La mas alta":
-                     video = yt.streams.get_highest_resolution() #Para obtener la resolucion maxima del video
+              if formato == "Video (.mp4)":
+                 if resolucion == "480p":
+                    video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
+                    #video.download('./YT')
+                    video.download(filename=f"{video.title}.mp4")
+                    #for e in video:
+                         #st.write(e)
+                    st.success("480p")
+                 elif resolucion == "720p":
+                     video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
                      #video.download('./YT')
                      video.download(filename=f"{video.title}.mp4")
-                     #video.download(filename=f"videodescargado.mp4")
-                     st.success("alta")
-               else:
+                     st.success("720p")
+                 elif resolucion == "La mas alta":
+                      video = yt.streams.get_highest_resolution() #Para obtener la resolucion maxima del video
+                      #video.download('./YT')
+                      video.download(filename=f"{video.title}.mp4")
+                      #video.download(filename=f"videodescargado.mp4")
+                      st.success("alta")
+              else:
                    video =  yt.streams.filter(only_audio=True).first() #Para obtener el audio
                    video.download(filename=f"{video.title}.mp3")
                    #video.download('./YT')
                    st.success("audio")
          
-               with st.spinner('Descargando...'):
-                    time.sleep(5)
-                    st.success('Done!') 
-
+      with st.spinner('Descargando...'):
+           time.sleep(5)
+           st.success('Felicitaciones!') 
+   else:
+       st.exception("El video debe estar disponible para descargarlo")
 if selected == "Extraer texto de video":
    
    #---FRONT---

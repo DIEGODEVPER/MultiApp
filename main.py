@@ -7,8 +7,10 @@ import time
 #---YT
 import speech_recognition  as sr
 import moviepy.editor as mp
-#import pytube
+
+import pytube
 from pytube import YouTube
+
 import pandas as pd
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
@@ -130,24 +132,26 @@ if selected == "Youtube Donwloader":
 
    descargar = st.button(label = "Descargar")
    
-  # yt = YouTube(link_video)
+   yt = YouTube(link_video)
 
-   if descargar:
-        if link_video == "":
-          st.warning("Debes introducir un link")
+   try:
+       streams = yt.streams
+   except pytube.exceptions.VideoUnavailable:
+        st.write("Este video no esta disponible")
+   else:
+        st.write("Este video si esta disponible")
+       
+        if descargar:
+           if link_video == "":
+              st.warning("Debes introducir un link")
       
-        elif "youtube.com" not in link_video:
-            st.warning("Debes introducir un link de youtube")
+           elif "youtube.com" not in link_video:
+              st.warning("Debes introducir un link de youtube")
       
-        elif "youtube.com" in link_video:
-            #st.warning("Estas aqui") 
-            try:
-               yt = YouTube(link_video)
-
-            except YouTube.exceptions.VideoUnavailable:
-                   st.write("Este video no esta disponible")
-            
-            else:
+           elif "youtube.com" in link_video:
+               #st.warning("Estas aqui") 
+               #yt = YouTube(link_video)
+                       
                if formato == "Video (.mp4)":
                   if resolucion == "480p":
                      video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p

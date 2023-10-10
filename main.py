@@ -23,7 +23,7 @@ import streamlit as st    # Importar la biblioteca Streamlit para crear la inter
 #from PIL import Image     # Importa la clase Image de la biblioteca PIL (Python Imaging Library)
 from rembg import remove  # Importa la funcion 'remove' del paquete 'rembg' para quitar fondos de imagen
 import io                 # Importa la biblioteca 'io' para trabajar con datos en memoria
-#import os                 # Importa la biblioteca 'os' para realizar operaciones con el sistema operativo
+import os                 # Importa la biblioteca 'os' para realizar operaciones con el sistema operativo
 
 from tempfile import NamedTemporaryFile
 
@@ -129,14 +129,16 @@ if selected == "Youtube Donwloader":
       resolucion = c2.radio(label="¿En qué resolucion?", options=["480p", "720p", "La mas alta"])
 
    link_video = st.text_input(label="Link del video")
+   
    st.write(link_video)
-   yt2 = YouTube(link_video)
+
+   yt = YouTube(link_video)
 
    try:
-       streams = yt2.streams
+       streams = yt.streams
    except pytube.exceptions.VideoUnavailable:
         st.write("Este video no esta disponible")
-        Disponible = False
+        disponible = False
    else:
         st.write("Este video si esta disponible")
         disponible = True
@@ -155,16 +157,17 @@ if selected == "Youtube Donwloader":
       
          elif "youtube.com" in link_video:
               #st.warning("Estas aqui") 
-              yt = YouTube(link_video)
-                       
+              #yt = YouTube(link_video)
+              extencion = 'mp4'         
               if formato == "Video (.mp4)":
                  if resolucion == "480p":
                     video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
                     #video.download('./YT')
                     video.download(filename=f"{video.title}.mp4")
                     #for e in video:
-                         #st.write(e)
+                        #st.write(e)
                     st.success("480p")
+                    
                  elif resolucion == "720p":
                      video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
                      #video.download('./YT')
@@ -175,16 +178,26 @@ if selected == "Youtube Donwloader":
                       #video.download('./YT')
                       video.download(filename=f"{video.title}.mp4")
                       #video.download(filename=f"videodescargado.mp4")
-                      st.success("alta")
+                      st.success("alta")               
               else:
                    video =  yt.streams.filter(only_audio=True).first() #Para obtener el audio
                    video.download(filename=f"{video.title}.mp3")
+                   extencion = 'mp3'
                    #video.download('./YT')
                    st.success("audio")
-         
-      with st.spinner('Descargando...'):
-           time.sleep(5)
-           st.success('Felicitaciones!') 
+               
+         st.balloons()
+         #with st.spinner('Descargando...'):
+              #time.sleep(5)
+              #st.success('Felicitaciones!') 
+
+      with open(f"{video.title}.{extencion}", "rb") as f:  # Abro el archivo con la sentencia 'with'
+           video_open = f.read() # Lee los datos de la imagen procesada
+           ## Muestra un boton de descarga para que el usuario pueda descargar la imagen procesada
+           st.download_button("Descargar video", data=video_open, file_name=f"{video.title}.{extencion}")
+
+
+
    else:
        st.exception("El video debe estar disponible para descargarlo")
 if selected == "Extraer texto de video":

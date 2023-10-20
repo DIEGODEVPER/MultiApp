@@ -5,9 +5,15 @@ from streamlit_option_menu import option_menu
 import time
 #from st_paywall import add_auth  #pip install st-paywall
 #---YT
-import speech_recognition  as sr
-import moviepy.editor as mp
 
+##--audio-video a txt
+#import speech_recognition  as sr
+import moviepy.editor as mp
+#from pydub import AudioSegment
+import whisper
+#from whisper.utils import Write_txt
+from pydub import AudioSegment
+#------------------------
 import pytube
 from pytube import YouTube
 
@@ -83,7 +89,7 @@ with st.sidebar:
    #####################################
    #autenticacion + suscripcion
    #st.write("Pagar a:")
-   st.link_button(label = "Tu aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
+   st.link_button(label = "Realizar mi aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
                                   # url="https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114"
    #st.write("https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114")
    st.success("!!! Muchas gracias ¡¡¡")
@@ -206,54 +212,58 @@ if selected == "Extraer texto de video":
    #---FRONT---
    
    #st.image("assets/logoyt.jpg")
-   st.image(imagen_convertidor,caption="", width= 800)   #use_column_width=True cuando quiero que hagarre todo el ancho
+   st.image(imagen_convertidor,caption="", width= 400)   #use_column_width=True cuando quiero que hagarre todo el ancho
    st.header("Convertidor de audio-video a texto")
-
-   #Lectura de video:
    
-   #ruta = st.file_uploader("Subir Video", type = ["mp4"])
-   #st.write(ruta.name)
-   #clip = mp.VideoFileClip(ruta.name)
 
-   #from tempfile import NamedTemporaryFile
-   #import streamlit as st
+   #c1 = st.columns(2)
+   formato = st.radio(label="¿Qué quieres transcribir?", options = ["Video", "Audio(.wav)"] )
 
-   uploaded_file = st.file_uploader("File upload", type='mp4')
-   st.write(uploaded_file)
+      
+   if formato == "Video":
+       
+      uploaded_file = st.file_uploader("File upload", type='mp4')
+      st.write(uploaded_file.name)
+      Eleccion = True
+   else: 
+      uploaded_file = st.file_uploader("File upload", type='wav')
+      st.write(uploaded_file.name)
+      Eleccion = False
+
+   Transcribir = st.button(label = "Transcribir")
    
-  # with NamedTemporaryFile(dir='.', suffix='.mp4') as f:
-        ##f.write(uploaded_file.getbuffer())
-        #f.write(f.name)
-        ##your_function_which_takes_a_path(f.name)
+   if Transcribir:
+      if Eleccion:
+         clip = mp.VideoFileClip(filename= f"{uploaded_file.name}")
+
+         clip.audio.write_audiofile("extracted_audio.wav")
+
+      else:
+         #audio =  st.audio(uploaded_file)
+         #i=audio.save("extracted_audio.wav")
+         audio = AudioSegment.from_wav(file = f"{uploaded_file.name}")
+         audio.export('extracted_audio.wav', format = 'wav')
+         #audio.export('extracted_audio', format = 'wav')
+         #audio =  st.audio(uploaded_file)
+
+         #with open('extracted_audio.wav','w') as f:
+              #f.write(uploaded_file.getbuffer())
+      
+      #Modelo de Wisper
+      model = whisper.load_model("medium")
+      result = model.transcribe("extracted_audio.wav")
+
+      with open("resultado.txt", 'w', encoding = 'utf-8') as w:
+          w.write(result["text"])
+          #write_txt(result["text"], file = txt)
+          #print(result["text"])
+
+      with open("resultado.txt", 'r') as re:  
+          txt = re.read()  
+          st.download_button("Descargar transcripcion", data=txt, file_name="resultado.txt")
+
+   st.balloons()
    
-   #clip = mp.VideoFileClip(f{"uploaded_file.title}.{uploaded.extencion})
-
-   
-   clip.audio.write_audiofile("extracted_audio.wav")
-
-   #Iniciar 'Speechrecognition':
-   r = sr.Recognizer()
-
-   #Lectura de archivo de audio:
-   audio = sr.AudioFile("extracted_audio.wav")
-
-   # Lectura de audio
-   with audio as source:
-       r.adjust_for_ambient_noise(source)
-       audio_file = r.record(source)
-
-   # Reconocimiento de voz  en audio:
-   resul = r.recognize_google(audio_file, language= 'es-ES')
-
-   #Escritura de archivo de texto
-
-   with open('recognized_txt','w') as file:
-        file.write("Recognized speech: \n")
-        file.write(resul)
-
-   print("\nTask COMPLETED")
-
-
 
 
 

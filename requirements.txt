@@ -15,5 +15,5 @@ rembg==2.0.50
 streamlit==1.27.0
 streamlit_option_menu==0.3.6
 pydub
-choco install ffmpeg
+ffmpeg
 python -m pip install --upgrade pip

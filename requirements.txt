@@ -1,6 +1,7 @@
 moviepy==1.0.3
 numpy==1.24.3
-openai_whisper==20230918
+# openai_whisper==20230918
+git+https://github.com/openai/whisper.git
 # pandas==1.5.3
 pandas==2.0.3
 # Pillow==9.4.0

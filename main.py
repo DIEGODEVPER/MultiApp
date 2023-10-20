@@ -226,9 +226,10 @@ if selected == "Extraer texto de video":
       st.write(uploaded_file.name)
       Eleccion = True
    else: 
-      uploaded_file = st.file_uploader("File upload", type='wav')
-      st.write(uploaded_file.name)
-      Eleccion = False
+      st.write("Esta en desarrollo")
+      #uploaded_file = st.file_uploader("File upload", type='wav')
+      #st.write(uploaded_file.name)
+      #Eleccion = False
 
    Transcribir = st.button(label = "Transcribir")
    
@@ -238,11 +239,11 @@ if selected == "Extraer texto de video":
 
          clip.audio.write_audiofile("extracted_audio.wav")
 
-      else:
+      #else:
          #audio =  st.audio(uploaded_file)
          #i=audio.save("extracted_audio.wav")
-         audio = AudioSegment.from_wav(file = f"{uploaded_file.name}")
-         audio.export('extracted_audio.wav', format = 'wav')
+         #audio = AudioSegment.from_wav(file = f"{uploaded_file.name}")
+         #audio.export('extracted_audio.wav', format = 'wav')
          #audio.export('extracted_audio', format = 'wav')
          #audio =  st.audio(uploaded_file)
 

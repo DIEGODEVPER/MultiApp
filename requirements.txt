@@ -21,7 +21,8 @@ torch
 torchvision
 torchaudio
 torchaudio
-/home/appuser/venv/bin/python -m pip install --upgrade pip
+pip==23.3.1
+#/home/appuser/venv/bin/python -m pip install --upgrade pip
 #pydub
 #ffmpeg-python
 #--upgrade pip 

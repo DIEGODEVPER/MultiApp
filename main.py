@@ -44,7 +44,7 @@ st.write("###")
 #--Navigation Menu--
 selected = option_menu(
     menu_title= None,
-    options= ["Home","Youtube Donwloader","Extraer texto de video","Eliminar Fondo", "Unir PDFs","Cuenta"],
+    options= ["Home","Youtube Donwloader","Extraer texto de audio","Eliminar Fondo", "Unir PDFs","Cuenta"],
     icons=["house","caret-right-square-fill","body-text","camera","filetype-pdf","file-person"], # https://icons.getbootstrap.com/ #Me falta saber como importarlos
     orientation="horizontal",
 )
@@ -207,7 +207,7 @@ if selected == "Youtube Donwloader":
    else:
        st.exception("El video debe estar disponible para descargarlo")
 
-if selected == "Extraer texto de video":
+if selected == "Extraer texto de audio":
    
    #---FRONT---
    
@@ -216,28 +216,18 @@ if selected == "Extraer texto de video":
    st.header("Convertidor de audio-video a texto")
    
 
-   #c1 = st.columns(2)
-   formato = st.radio(label="¿Qué quieres transcribir?", options = ["Video", "Audio(.wav)"] )
-
-      
-   if formato == "Video":
-       
-      uploaded_file = st.file_uploader("File upload", type='mp4')
-      st.write(uploaded_file.name)
-      Eleccion = True
-   else: 
-      st.write("Esta en desarrollo")
-      #uploaded_file = st.file_uploader("File upload", type='wav')
-      #st.write(uploaded_file.name)
-      #Eleccion = False
-
-   Transcribir = st.button(label = "Transcribir")
+   uploaded_file = st.file_uploader("File upload", type=['mp3','wav','m4a'])
+   st.write(uploaded_file.name)
    
-   if Transcribir:
-      if Eleccion:
-         clip = mp.VideoFileClip(filename= f"{uploaded_file.name}")
+   st.audio(uploaded_file.name)
+   
+   
+   
+      
+      #si fuera video - pasar de video a audio
+      #clip = mp.VideoFileClip(filename= f"{uploaded_file.name}")
 
-         clip.audio.write_audiofile("extracted_audio.wav")
+      #clip.audio.write_audiofile("extracted_audio.wav")
 
       #else:
          #audio =  st.audio(uploaded_file)
@@ -251,17 +241,31 @@ if selected == "Extraer texto de video":
               #f.write(uploaded_file.getbuffer())
       
       #Modelo de Wisper
-      model = whisper.load_model("medium")
-      result = model.transcribe("extracted_audio.wav")
+     
+   model = whisper.load_model("base") # esta puede incrementarse y ser mas exacto
+   st.text("Wisper Model Loaded")
 
-      with open("resultado.txt", 'w', encoding = 'utf-8') as w:
-          w.write(result["text"])
+   transcribir = st.button(label = "Transcribir") 
+  
+   if transcribir:
+      if uploaded_file is not None:
+         st.success("Transcribiendo audio")
+         transciption = model.transcribe(uploaded_file.name)
+         st.success("Transcripcion completeada")
+         #st.text(transciption["text"])
+         st.text_area("La transcripcion es:" , transciption["text"])
+         
+      else:
+         st.error("Please upload an audio file")
+
+   with open("transcripcion.txt", 'w', encoding = 'utf-8') as w:
+       w.write(transciption["text"])
           #write_txt(result["text"], file = txt)
           #print(result["text"])
 
-      with open("resultado.txt", 'r') as re:  
-          txt = re.read()  
-          st.download_button("Descargar transcripcion", data=txt, file_name="resultado.txt")
+   with open("transcripcion.txt", 'r') as re:  
+        txt = re.read()  
+        st.download_button("Descargar transcripcion", data=txt, file_name="transcripcion.txt")
 
    st.balloons()
    
@@ -269,7 +273,7 @@ if selected == "Extraer texto de video":
 
 
 
-   st.write("Todo bien")
+   st.write("Muchas gracias")
 
 
 if selected == "Eliminar Fondo":

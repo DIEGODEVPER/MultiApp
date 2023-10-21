@@ -12,7 +12,7 @@ import moviepy.editor as mp
 #from pydub import AudioSegment
 import whisper
 #from whisper.utils import Write_txt
-from pydub import AudioSegment
+#from pydub import AudioSegment
 #------------------------
 import pytube
 from pytube import YouTube

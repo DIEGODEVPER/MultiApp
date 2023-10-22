@@ -57,7 +57,7 @@ selected = option_menu(
 #imagen_usuario = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\usuario.png")
 
 Imagen_welcome = ("assets/Bienvenido.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
-Imagen_Google  = ("assets/google.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
+Imagen_Google  = ("assets/programador.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_yt      = ("assets/logoyt.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 imagen_convertidor = ("assets/Convertidoratxt.png")
 Imagen_camaro = ("assets/camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
@@ -72,11 +72,12 @@ if selected == "Home":
    st.write("###")
    st.write("Esperamos disfrutes de nuestro producto.")
    st.write("En esta app podras:")
-   st.write("- Descargar videos de Youtube")
-   st.write("- Eliminar el fondo de una imagen")
-   st.write("- Unir varios PDFs en uno solo")
+   st.write("- Descargar videos de Youtube :heavy_check_mark:")
+   st.write("- Transcribir texto de audio (Nuevo ingreso):star:")
+   st.write("- Eliminar el fondo de una imagen :heavy_check_mark:")
+   st.write("- Unir varios PDFs en uno solo :heavy_check_mark:")
    st.write("###")
-   st.write("Te da la bienvenida el programador DGSR")
+   st.write("Te da la bienvenida el programador DGSR  🧑‍💻☕")
 
 with st.sidebar:
    #st.image("assets/google.png")
@@ -137,75 +138,78 @@ if selected == "Youtube Donwloader":
    link_video = st.text_input(label="Link del video")
    
    st.write(link_video)
-
-   yt = YouTube(link_video)
-
-   try:
-       streams = yt.streams
-   except pytube.exceptions.VideoUnavailable:
-        st.write("Este video no esta disponible")
-        disponible = False
-   else:
-        st.write("Este video si esta disponible")
-        disponible = True
-
-   descargar = st.button(label = "Descargar")
    
-   #yt = YouTube(link_video)
-
-   if disponible:
-      if descargar:
-         if link_video == "":
-            st.warning("Debes introducir un link")
-      
-         elif "youtube.com" not in link_video:
-              st.warning("Debes introducir un link de youtube")
-      
-         elif "youtube.com" in link_video:
-              #st.warning("Estas aqui") 
-              #yt = YouTube(link_video)
-              extencion = 'mp4'         
-              if formato == "Video (.mp4)":
-                 if resolucion == "480p":
-                    video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
-                    #video.download('./YT')
-                    video.download(filename=f"{video.title}.mp4")
-                    #for e in video:
-                        #st.write(e)
-                    st.success("480p")
-                    
-                 elif resolucion == "720p":
-                     video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
-                     #video.download('./YT')
-                     video.download(filename=f"{video.title}.mp4")
-                     st.success("720p")
-                 elif resolucion == "La mas alta":
-                      video = yt.streams.get_highest_resolution() #Para obtener la resolucion maxima del video
-                      #video.download('./YT')
-                      video.download(filename=f"{video.title}.mp4")
-                      #video.download(filename=f"videodescargado.mp4")
-                      st.success("alta")               
-              else:
-                   video =  yt.streams.filter(only_audio=True).first() #Para obtener el audio
-                   video.download(filename=f"{video.title}.mp3")
-                   extencion = 'mp3'
-                   #video.download('./YT')
-                   st.success("audio")
-               
-         st.balloons()
-         #with st.spinner('Descargando...'):
-              #time.sleep(5)
-              #st.success('Felicitaciones!') 
-
-      with open(f"{video.title}.{extencion}", "rb") as f:  # Abro el archivo con la sentencia 'with'
-           video_open = f.read() # Lee los datos de la imagen procesada
-           ## Muestra un boton de descarga para que el usuario pueda descargar la imagen procesada
-           st.download_button("Descargar video", data=video_open, file_name=f"{video.title}.{extencion}")
-
-
-
+   if link_video == "":
+        st.warning("Debes introducir un link")
    else:
-       st.exception("El video debe estar disponible para descargarlo")
+        yt = YouTube(link_video)
+
+        try:
+            streams = yt.streams
+        except pytube.exceptions.VideoUnavailable:
+            st.write("Este video no esta disponible")
+            disponible = False
+        else:
+            st.write("Este video si esta disponible")
+            disponible = True
+
+        descargar = st.button(label = "Descargar")
+   
+        #yt = YouTube(link_video)
+
+        if disponible:
+            if descargar:
+               if link_video == "":
+                  st.warning("Debes introducir un link")
+            
+               elif "youtube.com" not in link_video:
+                  st.warning("Debes introducir un link de youtube")
+            
+               elif "youtube.com" in link_video:
+                  #st.warning("Estas aqui") 
+                  #yt = YouTube(link_video)
+                  extencion = 'mp4'         
+                  if formato == "Video (.mp4)":
+                     if resolucion == "480p":
+                        video = yt.streams.filter(res='480p').first() ##all() #.first() #Para obtener la resolucion a 720p
+                        #video.download('./YT')
+                        video.download(filename=f"{video.title}.mp4")
+                        #for e in video:
+                              #st.write(e)
+                        st.success("480p")
+                        
+                     elif resolucion == "720p":
+                           video = yt.streams.filter(res='720p').first() #Para obtener la resolucion a 1800p
+                           #video.download('./YT')
+                           video.download(filename=f"{video.title}.mp4")
+                           st.success("720p")
+                     elif resolucion == "La mas alta":
+                           video = yt.streams.get_highest_resolution() #Para obtener la resolucion maxima del video
+                           #video.download('./YT')
+                           video.download(filename=f"{video.title}.mp4")
+                           #video.download(filename=f"videodescargado.mp4")
+                           st.success("alta")               
+                  else:
+                        video =  yt.streams.filter(only_audio=True).first() #Para obtener el audio
+                        video.download(filename=f"{video.title}.mp3")
+                        extencion = 'mp3'
+                        #video.download('./YT')
+                        st.success("audio")
+                     
+               st.balloons()
+               #with st.spinner('Descargando...'):
+                  #time.sleep(5)
+                  #st.success('Felicitaciones!') 
+
+            with open(f"{video.title}.{extencion}", "rb") as f:  # Abro el archivo con la sentencia 'with'
+               video_open = f.read() # Lee los datos de la imagen procesada
+               ## Muestra un boton de descarga para que el usuario pueda descargar la imagen procesada
+               st.download_button("Descargar video", data=video_open, file_name=f"{video.title}.{extencion}")
+
+
+
+        else:
+              st.exception("El video debe estar disponible para descargarlo")
 
 if selected == "Extraer texto de audio":
    
@@ -217,9 +221,9 @@ if selected == "Extraer texto de audio":
    
 
    uploaded_file = st.file_uploader("File upload", type=['mp3','wav','m4a'])
-   st.write(uploaded_file.name)
+   st.write(f"{uploaded_file.name}")
    
-   st.audio(uploaded_file.name)
+   st.audio(f"{uploaded_file.name}")
    
    
    

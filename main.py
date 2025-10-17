@@ -212,7 +212,7 @@ if selected == "Youtube Donwloader":
               st.exception("El video debe estar disponible para descargarlo")
 
 if selected == "Extraer texto de audio":
-   
+   '''
    #---FRONT---
    
    #st.image("assets/logoyt.jpg")
@@ -278,7 +278,66 @@ if selected == "Extraer texto de audio":
 
 
    st.write("Muchas gracias")
+'''
+    
+   
+   #--- FRONT ---
+   st.image(imagen_convertidor, caption="", width=400)
+   st.header("Convertidor de audio-video a texto")
 
+   uploaded_file = st.file_uploader("File upload", type=['mp3', 'wav', 'm4a'])
+
+   if uploaded_file is not None:
+       st.write(f"Archivo subido: {uploaded_file.name}")
+
+       # Detectar formato de audio
+       if uploaded_file.name.endswith(".mp3"):
+           audio_format = "audio/mp3"
+       elif uploaded_file.name.endswith(".wav"):
+           audio_format = "audio/wav"
+       elif uploaded_file.name.endswith(".m4a"):
+           audio_format = "audio/m4a"
+       else:
+           st.error("Formato no soportado.")
+           audio_format = None
+
+       # Reproducir audio
+       if audio_format:
+           st.audio(uploaded_file, format=audio_format)
+
+           # Guardar archivo para transcripción
+           audio_filename = "extracted_audio." + uploaded_file.name.split(".")[-1]
+           with open(audio_filename, "wb") as f:
+               f.write(uploaded_file.getbuffer())
+
+           st.success("Audio guardado correctamente.")
+
+           # Cargar modelo Whisper
+           model = whisper.load_model("base")
+           st.text("Modelo Whisper cargado")
+
+           # Botón para transcribir
+           transcribir = st.button(label="Transcribir")
+
+           if transcribir:
+               st.success("Transcribiendo audio...")
+               transcription = model.transcribe(audio_filename)
+               st.success("Transcripción completada")
+
+               st.text_area("La transcripción es:", transcription["text"])
+
+               # Guardar transcripción en archivo
+               with open("transcripcion.txt", 'w', encoding='utf-8') as w:
+                   w.write(transcription["text"])
+
+               # Botón para descargar
+               with open("transcripcion.txt", 'r', encoding='utf-8') as re:
+                   txt = re.read()
+                   st.download_button("Descargar transcripción", data=txt, file_name="transcripcion.txt")
+
+               st.balloons()
+
+   st.write("Muchas gracias")
 
 if selected == "Eliminar Fondo":
  

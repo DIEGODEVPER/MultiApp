@@ -223,7 +223,7 @@ if selected == "Video/audio a texto":
         if transcribir:
             try:
                 st.success("Cargando modelo Whisper...")
-                model = whisper.load_model("base")
+                model = whisper.load_model("small") # base")
                 st.success("Modelo cargado correctamente")
 
                 with NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded_file.name)[1]) as temp_file:

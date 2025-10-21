@@ -119,7 +119,7 @@ with st.sidebar:
 
 
 if selected == "Video/audio a texto":
-   '''
+   """
    #---FRONT---
    
    #st.image("assets/logoyt.jpg")
@@ -206,7 +206,7 @@ if selected == "Video/audio a texto":
 
         else:
               st.exception("El video debe estar disponible para descargarlo")
-      '''
+      """
    st.image(imagen_convertidor, caption="", width=200)
    st.header("Convertidor de audio/video a texto")
 

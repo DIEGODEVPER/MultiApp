@@ -74,12 +74,12 @@ if selected == "Home":
    st.write("Te da la bienvenida el programador DGSR  🧑‍💻☕")
 
 with st.sidebar:
-   #st.image("assets/google.png")
+    #st.image("assets/google.png")
    st.image(Imagen_Google, caption="")
    
    st.write("###")
    #st.warning("Esta App es totalmente gratuita, pero nos gustaria tener un apoyo economico de tu parte para poder continuar")
-    st.warning("Esta aplicacion tiene la finalidad de ser usada como propuesta para el MINEDU - DIFODS")
+   st.warning("Esta aplicacion tiene la finalidad de ser usada como propuesta para el MINEDU - DIFODS")
     
    #pagar= st.button(Label = "Pagar suscripcion") # https://mpago.la/19tVAX9")
    #add_auth(required=True)

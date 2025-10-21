@@ -248,7 +248,7 @@ if selected == "Video/audio a texto":
 
             except Exception as e:
                 st.error(f"Ocurrió un error: {str(e)}")
-    else:
+   else:
         st.info("Por favor, sube un archivo para comenzar.")
 
    st.write("Muchas gracias por usar el convertidor.")

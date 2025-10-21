@@ -502,7 +502,7 @@ if selected == "Cuenta":
 
    col1, col2 = st.columns([1,1])
    with col1:
-        st.image(imagen_usuario, caption="", width = 80)
+        st.image(imagen_usuario, caption="", width = 150)
    with col2:
         st.subheader("Cuenta Free")
         st.write('En esta sección podras ver los datos de tu cuenta')

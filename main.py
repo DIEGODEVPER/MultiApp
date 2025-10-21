@@ -502,12 +502,13 @@ if selected == "Cuenta":
 
    col1, col2 = st.columns([1,1])
    with col1:
-        st.image(imagen_usuario, caption="", width = 150)
+        st.image(imagen_usuario, caption="", width = 400)
    with col2:
         st.subheader("Diego Salas")
         st.write('******************')
         st.write('')
-        st.write('Tu email es: diegofiis10@gmail.com')
+        st.write('email es: diegofiis10@gmail.com')
+       st.write('celular es: 920187327')
         #st.write('Para cancelar tu suscripcion, haz clik: Proximamente')
 
 

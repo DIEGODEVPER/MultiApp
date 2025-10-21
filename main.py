@@ -508,7 +508,7 @@ if selected == "Cuenta":
         st.write('******************')
         st.write('')
         st.write('email es: diegofiis10@gmail.com')
-       st.write('celular es: 920187327')
+        st.write('celular es: 920187327')
         #st.write('Para cancelar tu suscripcion, haz clik: Proximamente')
 
 

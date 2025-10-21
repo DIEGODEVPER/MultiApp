@@ -504,10 +504,10 @@ if selected == "Cuenta":
    with col1:
         st.image(imagen_usuario, caption="", width = 150)
    with col2:
-        st.subheader("Cuenta Free")
-        st.write('En esta sección podras ver los datos de tu cuenta')
+        st.subheader("Diego Salas")
+        st.write('******************')
         st.write('')
-        st.write('Tu email es:')
+        st.write('Tu email es: diegofiis10@gmail.com')
         #st.write('Para cancelar tu suscripcion, haz clik: Proximamente')
 
 

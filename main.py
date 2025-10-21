@@ -207,12 +207,12 @@ if selected == "Video/audio a texto":
         else:
               st.exception("El video debe estar disponible para descargarlo")
       '''
-    st.image(imagen_convertidor, caption="", width=200)
-    st.header("Convertidor de audio/video a texto")
+   st.image(imagen_convertidor, caption="", width=200)
+   st.header("Convertidor de audio/video a texto")
 
-    uploaded_file = st.file_uploader("Sube tu archivo de audio o video", type=['mp3', 'wav', 'm4a', 'mp4', 'mov'])
+   uploaded_file = st.file_uploader("Sube tu archivo de audio o video", type=['mp3', 'wav', 'm4a', 'mp4', 'mov'])
 
-    if uploaded_file is not None:
+   if uploaded_file is not None:
         st.write(f"Archivo cargado: {uploaded_file.name}")
 
         if uploaded_file.type.startswith("audio"):
@@ -251,7 +251,7 @@ if selected == "Video/audio a texto":
     else:
         st.info("Por favor, sube un archivo para comenzar.")
 
-    st.write("Muchas gracias por usar el convertidor.")
+   st.write("Muchas gracias por usar el convertidor.")
 
 
 

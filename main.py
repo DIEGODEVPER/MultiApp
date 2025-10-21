@@ -56,7 +56,7 @@ Imagen_yt      = ("assets/logoyt.jpg") # Creo la variable para almacenar la ruta
 imagen_convertidor = ("assets/Convertidoratxt.png")
 Imagen_camaro = ("assets/camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 imagen_combine_pdf = ("assets/combine-pdf.png")
-imagen_usuario = ("assets/Programador.jpg")
+imagen_usuario = ("assets/Programador.JPG")
 
 
 
@@ -508,7 +508,7 @@ if selected == "Cuenta":
         st.write('En esta sección podras ver los datos de tu cuenta')
         st.write('')
         st.write('Tu email es:')
-        st.write('Para cancelar tu suscripcion, haz clik: Proximamente')
+        #st.write('Para cancelar tu suscripcion, haz clik: Proximamente')
 
 
 

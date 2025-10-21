@@ -389,7 +389,7 @@ if selected == "Extraer texto de audio":
 
    st.write("Muchas gracias")
 
-if selected == "Sentimiento de imagen" #"Eliminar Fondo":
+if selected == "Sentimiento de imagen": #"Eliminar Fondo":
  
 
 #---BACKEND---

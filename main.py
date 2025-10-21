@@ -37,32 +37,26 @@ from tempfile import NamedTemporaryFile
 
 #---FROMT---
 #--Pantalla inicial
-st.set_page_config(page_title="Multiapp", page_icon="", layout="centered")
-st.title("App Multi-usos")
+st.set_page_config(page_title="DIFODS25", page_icon="", layout="centered")
+st.title("Propuesta para MINEDU - DIFODS")
 st.write("###")
 
 #--Navigation Menu--
 selected = option_menu(
     menu_title= None,
-    options= ["Home","Youtube Donwloader","Extraer texto de audio","Eliminar Fondo", "Unir PDFs","Cuenta"],
+    options= ["Home","Video/audio a texto","Extraer texto de audio","Eliminar Fondo", "Unir PDFs","Cuenta"],
     icons=["house","caret-right-square-fill","body-text","camera","filetype-pdf","file-person"], # https://icons.getbootstrap.com/ #Me falta saber como importarlos
     orientation="horizontal",
 )
-#Abrir las imagenes --esta por mejorar 
-#Imagen_welcome = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\welcome.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
-#Imagen_Google  = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\google.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
-#Imagen_yt      = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\logoyt.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
-#Imagen_camaro = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
-#imagen_combine_pdf = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\combine-pdf.png")
-#imagen_usuario = Image.open(r"C:\Users\dgsalas\Desarrollos_Python\yt-automation-master\assets\usuario.png")
+#Abrir las imagenes --rutas relativas mejoradas
 
-Imagen_welcome = ("assets/Bienvenido.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
-Imagen_Google  = ("assets/programador.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
+Imagen_welcome = ("assets/Bienvenidos.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
+Imagen_Google  = ("assets/Logo_Minedu.png") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 Imagen_yt      = ("assets/logoyt.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 imagen_convertidor = ("assets/Convertidoratxt.png")
 Imagen_camaro = ("assets/camaro_remove.jpg") # Creo la variable para almacenar la ruta de imagen a mostrar para el usuario
 imagen_combine_pdf = ("assets/combine-pdf.png")
-imagen_usuario = ("assets/usuario.png")
+imagen_usuario = ("assets/Programador.jpg")
 
 
 
@@ -72,10 +66,10 @@ if selected == "Home":
    st.write("###")
    st.write("Esperamos disfrutes de nuestro producto.")
    st.write("En esta app podras:")
-   st.write("- Descargar videos de Youtube :heavy_check_mark:")
+   st.write("- Video/Audios a texto :heavy_check_mark:")
    st.write("- Transcribir texto de audio (Nuevo ingreso):star:")
-   st.write("- Eliminar el fondo de una imagen :heavy_check_mark:")
-   st.write("- Unir varios PDFs en uno solo :heavy_check_mark:")
+   st.write("- Sentimiento de una imagen :heavy_check_mark:")
+   st.write("- Sentimiento de un texto :heavy_check_mark:")
    st.write("###")
    st.write("Te da la bienvenida el programador DGSR  🧑‍💻☕")
 
@@ -84,13 +78,15 @@ with st.sidebar:
    st.image(Imagen_Google, caption="")
    
    st.write("###")
-   st.warning("Esta App es totalmente gratuita, pero nos gustaria tener un apoyo economico de tu parte para poder continuar")
+   #st.warning("Esta App es totalmente gratuita, pero nos gustaria tener un apoyo economico de tu parte para poder continuar")
+    st.warning("Esta aplicacion tiene la finalidad de ser usada como propuesta para el MINEDU - DIFODS")
+    
    #pagar= st.button(Label = "Pagar suscripcion") # https://mpago.la/19tVAX9")
    #add_auth(required=True)
    #####################################
    #autenticacion + suscripcion
    #st.write("Pagar a:")
-   st.link_button(label = "Realizar mi aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
+   #st.link_button(label = "Realizar mi aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
                                   # url="https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114"
    #st.write("https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114")
    st.success("!!! Muchas gracias ¡¡¡")
@@ -122,8 +118,8 @@ with st.sidebar:
 
 
 
-if selected == "Youtube Donwloader":
-   
+if selected == "Video/audio a texto":
+   '''
    #---FRONT---
    
    #st.image("assets/logoyt.jpg")
@@ -210,6 +206,60 @@ if selected == "Youtube Donwloader":
 
         else:
               st.exception("El video debe estar disponible para descargarlo")
+      '''
+    st.image(imagen_convertidor, caption="", width=200)
+    st.header("Convertidor de audio/video a texto")
+
+    uploaded_file = st.file_uploader("Sube tu archivo de audio o video", type=['mp3', 'wav', 'm4a', 'mp4', 'mov'])
+
+    if uploaded_file is not None:
+        st.write(f"Archivo cargado: {uploaded_file.name}")
+
+        if uploaded_file.type.startswith("audio"):
+            st.audio(uploaded_file)
+
+        transcribir = st.button("Transcribir")
+
+        if transcribir:
+            try:
+                st.success("Cargando modelo Whisper...")
+                model = whisper.load_model("base")
+                st.success("Modelo cargado correctamente")
+
+                with NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded_file.name)[1]) as temp_file:
+                    temp_file.write(uploaded_file.read())
+                    temp_path = temp_file.name
+
+                if uploaded_file.type.startswith("video"):
+                    st.info("Extrayendo audio del video...")
+                    audio_path = temp_path.replace(os.path.splitext(temp_path)[1], ".wav")
+                    clip = mp.VideoFileClip(temp_path)
+                    clip.audio.write_audiofile(audio_path)
+                else:
+                    audio_path = temp_path
+
+                st.info("Transcribiendo...")
+                result = model.transcribe(audio_path, language='es')
+                st.success("Transcripción completada")
+
+                st.text_area("Transcripción:", result["text"], height=300)
+                st.download_button("Descargar transcripción", data=result["text"], file_name="transcripcion.txt")
+                st.balloons()
+
+            except Exception as e:
+                st.error(f"Ocurrió un error: {str(e)}")
+    else:
+        st.info("Por favor, sube un archivo para comenzar.")
+
+    st.write("Muchas gracias por usar el convertidor.")
+
+
+
+
+
+
+
+
 
 if selected == "Extraer texto de audio":
    '''

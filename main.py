@@ -44,7 +44,7 @@ st.write("###")
 #--Navigation Menu--
 selected = option_menu(
     menu_title= None,
-    options= ["Home","Video/audio a texto","Extraer texto de audio","Eliminar Fondo", "Unir PDFs","Cuenta"],
+    options= ["Home","Video/audio a texto","Extraer texto de audio","Sentimiento de imagen", "Sentimiento de texto","Cuenta"],
     icons=["house","caret-right-square-fill","body-text","camera","filetype-pdf","file-person"], # https://icons.getbootstrap.com/ #Me falta saber como importarlos
     orientation="horizontal",
 )
@@ -66,10 +66,10 @@ if selected == "Home":
    st.write("###")
    st.write("Esperamos disfrutes de nuestro producto.")
    st.write("En esta app podras:")
-   st.write("- Video/Audios a texto :heavy_check_mark:")
+   st.write("- Video/Audios a texto (Nuevo ingreso):star:")
    st.write("- Transcribir texto de audio (Nuevo ingreso):star:")
-   st.write("- Sentimiento de una imagen :heavy_check_mark:")
-   st.write("- Sentimiento de un texto :heavy_check_mark:")
+   st.write("- Sentimiento de una imagen proximamente:heavy_check_mark:")
+   st.write("- Sentimiento de un texto proximamente:heavy_check_mark:")
    st.write("###")
    st.write("Te da la bienvenida el programador DGSR  🧑‍💻☕")
 
@@ -389,7 +389,7 @@ if selected == "Extraer texto de audio":
 
    st.write("Muchas gracias")
 
-if selected == "Eliminar Fondo":
+if selected == "Sentimiento de imagen" #"Eliminar Fondo":
  
 
 #---BACKEND---

@@ -452,7 +452,7 @@ if selected == "Sentimiento de imagen": #"Eliminar Fondo":
 
     #os.remove("processed_image.png") # Elimina el archivo temporal de la imagen procesada del sistema operativo 
  """
-if selected == "Sentimiento de texto "  #"Unir PDFs":
+if selected == "Sentimiento de texto":  #"Unir PDFs":
 
    # -----------------------------------------------
     # CONFIGURACIÓN DE LA INTERFAZ

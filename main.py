@@ -41,7 +41,7 @@ import re  #para tokenizar en vez de nltk en la nube
 import nltk #tokenizador de idiomas, pero depende de instalacion de punkt
 from nltk.corpus import stopwords
 
-# nltk.download('punkt', quiet=True)
+nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
 
 #---FROMT---

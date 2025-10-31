@@ -642,19 +642,19 @@ if selected == "Sentimiento de texto":  #"Unir PDFs":
                pdf_final.write(output_path) # Guarda el PDF combinado en la ruta de salida.
         
         
-          #---FROM---
+           #---FROM---
         
            st.image(imagen_combine_pdf, caption = "") #("assets/combine-pdf.png")         # Muestra una imagen en la interfaz del usurio
            st.header("Unir PDF")                      # Agrega un encabezado en la insterfaz de usuario
            st.subheader("Adjuntar pdfs para unir")    # Agrega un subencabezado en la insterfaz de usuario
         
-         # Crea un area para que el usuario carge varios archivos PDF.
+           # Crea un area para que el usuario carge varios archivos PDF.
            pdf_adjuntos = st.file_uploader(label="",accept_multiple_files=True)
         
-         # Crea un boton para "Unir PDFs".
+          # Crea un boton para "Unir PDFs".
            unir = st.button(label="Unir PDFs")
         
-         #--triger
+          #--triger
         
            if unir: 
               # Comienza un bloque condicional si se hace clic en el boton "Unir PDFs".

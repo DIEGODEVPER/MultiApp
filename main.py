@@ -38,7 +38,10 @@ from wordcloud import WordCloud
 from textblob import TextBlob
 from bs4 import BeautifulSoup
 import re  #para tokenizar en vez de nltk en la nube
+from nltk.corpus import stopwords
 
+nltk.download('punkt', quiet=True)
+nltk.download('stopwords', quiet=True)
 
 #---FROMT---
 #--Pantalla inicial

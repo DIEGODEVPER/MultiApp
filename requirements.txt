@@ -37,3 +37,4 @@ wordcloud
 beautifulsoup4
 nltk
 xlsxwriter
+openpyxl

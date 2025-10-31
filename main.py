@@ -98,7 +98,7 @@ with st.sidebar:
    #st.link_button(label = "Realizar mi aporte", url="https://link.mercadopago.com.pe/appmultiusosperu" )
                                   # url="https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114"
    #st.write("https://www.mercadopago.com.pe/subscriptions/checkout?preapproval_plan_id=2c9380848b053057018b064fd7d50114")
-   st.success("!!! Muchas gracias ¡¡¡")
+   st.success("Elabora por: Diego Salas")
    
    
    # Using object notation

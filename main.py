@@ -33,6 +33,11 @@ import os                 # Importa la biblioteca 'os' para realizar operaciones
 
 from tempfile import NamedTemporaryFile
 
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+from textblob import TextBlob
+from bs4 import BeautifulSoup
+import re  #para tokenizar en vez de nltk en la nube
 
 
 #---FROMT---
@@ -390,8 +395,8 @@ if selected == "Extraer texto de audio":
    st.write("Muchas gracias")
 
 if selected == "Sentimiento de imagen": #"Eliminar Fondo":
- 
-
+    st.write("Muchas gracias, este modulo se esta trabajando")
+"""
 #---BACKEND---
 #-------------
 
@@ -446,9 +451,181 @@ if selected == "Sentimiento de imagen": #"Eliminar Fondo":
            st.download_button("Download Processed Image", data=image_data, file_name="processed_image.png")
 
     #os.remove("processed_image.png") # Elimina el archivo temporal de la imagen procesada del sistema operativo 
+ """
+if selected == "Sentimiento de texto "  #"Unir PDFs":
 
-if selected == "Unir PDFs":
-   
+   # -----------------------------------------------
+    # CONFIGURACIÓN DE LA INTERFAZ
+    # -----------------------------------------------
+    st.set_page_config(page_title="Análisis Semántico Bicentenario", layout="wide")
+    st.title("📊 Análisis Semántico y de Sentimiento")
+    st.markdown("""
+    Esta plataforma analiza los textos escritos por formadores en el marco del programa **Escuelas Bicentenario**, 
+    identificando patrones semánticos, tono emocional y generando reportes por docente.
+    """)
+
+    # -----------------------------------------------
+    # CARGA DEL ARCHIVO EXCEL
+    # -----------------------------------------------
+    uploaded_file = st.file_uploader("📁 Cargar archivo Excel del protocolo", type=["xlsx"])
+
+    # ✅ Verificamos si el usuario cargó un archivo
+    if uploaded_file:
+        # ✅ Leemos el archivo Excel y forzamos que la columna USUARIO_DOCUMENTO sea tipo string
+        df = pd.read_excel(uploaded_file, dtype={'USUARIO_DOCUMENTO': str})
+
+        # ✅ Normalizamos los nombres de las columnas (elimina espacios extra)
+        df.columns = [col.strip() for col in df.columns]
+
+        # ✅ Filtrar solo los que asistieron (Asistió AP 1 = 1)
+        if 'Asistió AP 1.' in df.columns:
+            df = df[df['Asistió AP 1'] == 1]
+
+        # ✅ Lista fija de campos semánticos que queremos permitir en el selector
+        semantic_fields = [
+            "AP1 FORTALEZA 1",
+            "AP1 MEJORA 1",
+            "AP2 FORTALEZA 1",
+            "AP2 MEJORA 1"
+        ]
+
+        # ✅ Filtramos la lista para incluir solo los campos que existen en el archivo cargado
+        available_fields = [field for field in semantic_fields if field in df.columns]
+
+        # ✅ Creamos un selector dinámico para que el usuario elija uno o varios campos
+        selected_fields = st.multiselect(
+            "Selecciona los campos para análisis semántico",
+            options=available_fields,
+            default=available_fields[:1]  # Si hay al menos un campo, selecciona el primero
+        )
+
+        # -----------------------------------------------
+        # PROCESAMIENTO POR DOCENTE (EXCLUYENDO TEXTOS VACÍOS)
+        # -----------------------------------------------
+        resultados = []
+        for index, row in df.iterrows():
+            # ✅ Unimos el texto de los campos seleccionados en una sola cadena
+            textos = ' '.join([str(row[field]) for field in selected_fields if pd.notna(row[field])])
+
+            # ✅ Solo procesar si hay texto (evita filas vacías)
+            if textos.strip():
+                blob = TextBlob(textos)
+                sentimiento = blob.sentiment.polarity  # Rango: -1 (negativo) a +1 (positivo)
+
+                # ✅ Guardamos los resultados en un diccionario para cada docente
+                resultados.append({
+                    'DNI_DOCENTE': row.get('USUARIO_DOCUMENTO', f'Docente_{index}'),
+                    'Asistió AP 1': row.get('Asistió AP 1.', 0),
+                    'Texto_Analizado': textos,
+                    'Sentimiento': sentimiento
+                })
+
+        # ✅ Convertimos la lista de resultados en un DataFrame para mostrar y exportar
+        report_df = pd.DataFrame(resultados)
+
+        # -----------------------------------------------
+        # AGREGAR COLUMNA DE VALORACIÓN CATEGÓRICA
+        # -----------------------------------------------
+        def clasificar_valoracion(sentimiento):
+            if pd.isna(sentimiento):
+                return "Sin análisis"
+            elif sentimiento > 0.1:
+                return "Positivo"
+            elif sentimiento < -0.1:
+                return "Negativo"
+            else:
+                return "Neutro"
+
+        if not report_df.empty:
+            report_df['Valoración'] = report_df['Sentimiento'].apply(clasificar_valoracion)
+
+            # -----------------------------------------------
+            # VISUALIZACIÓN DE RESULTADOS POR DOCENTE
+            # -----------------------------------------------
+            st.subheader("📋 Reporte por Docente")
+            st.dataframe(report_df)
+
+            # -----------------------------------------------
+            # DESCARGA DEL REPORTE EN EXCEL
+            # -----------------------------------------------
+            report_df['DNI_DOCENTE'] = report_df['DNI_DOCENTE'].astype(str)  # ✅ Convertimos DNI a texto
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                report_df.to_excel(writer, index=False, sheet_name='Reporte')
+                workbook = writer.book
+                worksheet = writer.sheets['Reporte']
+                text_format = workbook.add_format({'num_format': '@'})  # ✅ Formato texto
+                dni_col_index = report_df.columns.get_loc('DNI_DOCENTE')
+                for row_num, value in enumerate(report_df['DNI_DOCENTE'], start=1):
+                    worksheet.write_string(row_num, dni_col_index, value, text_format)
+            output.seek(0)
+
+            # ✅ Generamos el nombre dinámico del archivo según los campos seleccionados
+            if selected_fields:
+                campos_nombre = "_".join([field.replace(" ", "_") for field in selected_fields])
+                file_name = f"reporte_docentes_{campos_nombre}.xlsx"
+            else:
+                file_name = "reporte_docentes.xlsx"
+
+            # ✅ Botón de descarga
+            st.download_button(
+                label="📥 Descargar reporte en Excel",
+                data=output,
+                file_name=file_name,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+
+            # -----------------------------------------------
+            # ☁️ NUBE DE PALABRAS GLOBAL (LIMPIA)
+            # -----------------------------------------------
+            st.subheader("☁️ Nube de Palabras Global")
+            all_text = ' '.join(report_df['Texto_Analizado'].dropna().tolist()).lower()
+            all_text = BeautifulSoup(all_text, "html.parser").get_text()  # ✅ Eliminar etiquetas HTML
+            all_text = re.sub(r'[^a-záéíóúüñ\s]', '', all_text)  # ✅ Eliminar caracteres especiales
+            words = re.findall(r'\b\w+\b', all_text)
+            stop_words = set(stopwords.words('spanish'))
+            custom_stopwords = {"br", "uso", "etc", "actividade"}  # ✅ Lista personalizada
+            stop_words.update(custom_stopwords)
+            filtered_words = [word for word in words if word not in stop_words and len(word) > 2]
+            cleaned_text = ' '.join(filtered_words)
+            wordcloud = WordCloud(width=1000, height=500, background_color='white').generate(cleaned_text)
+            fig, ax = plt.subplots()
+            ax.imshow(wordcloud, interpolation='bilinear')
+            ax.axis('off')
+            st.pyplot(fig)
+
+            # -----------------------------------------------
+            # DISTRIBUCIÓN DE SENTIMIENTOS
+            # -----------------------------------------------
+            st.subheader("📈 Distribución de Sentimientos")
+            fig2, ax2 = plt.subplots()
+            sns.histplot(report_df['Sentimiento'].dropna(), bins=20, kde=True, ax=ax2, color='skyblue')
+            ax2.set_title("Distribución de Sentimientos por Docente")
+            ax2.set_xlabel("Valor de Sentimiento (-1 = Negativo, +1 = Positivo)")
+            st.pyplot(fig2)
+
+            # -----------------------------------------------
+            # MÉTRICAS EJECUTIVAS
+            # -----------------------------------------------
+            st.subheader("📊 Métricas Generales")
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Promedio de Sentimiento", f"{report_df['Sentimiento'].mean():.2f}")
+            col2.metric("Docentes con Sentimiento Positivo", f"{(report_df['Valoración'] == 'Positivo').sum()}")
+            col3.metric("Docentes con Sentimiento Negativo", f"{(report_df['Valoración'] == 'Negativo').sum()}")
+            col4.metric("Docentes con Sentimiento Neutro", f"{(report_df['Valoración'] == 'Neutro').sum()}")
+
+            # -----------------------------------------------
+            # CIERRE
+            # -----------------------------------------------
+            st.markdown("""
+            ---
+            ✅ Este análisis permite identificar patrones de percepción sobre el desempeño docente, 
+            facilitando la toma de decisiones estratégicas en el acompañamiento pedagógico.
+            """)
+        else:
+            st.warning("No hay docentes con texto analizado en los campos seleccionados.")
+
+ """  
    #---BACKEND--- 
 
 # Variables
@@ -494,7 +671,7 @@ if selected == "Unir PDFs":
               # Muestra un boton de descarga para que el usuario pueda descargar el PDF final combinado 
               st.download_button(label="Descargar PDF final", data=pdf_data, file_name="pdf_final.pdf") 
               st.balloons()
-
+  """
 if selected == "Cuenta":
    #st.image(imagen_usuario, caption="")
    #st.subheaderheader("Cuenta", divider=True)        # Muestra un encabezado en la interfaz

@@ -402,7 +402,7 @@ if selected == "Sentimiento de texto":  #"Unir PDFs":
     # -----------------------------------------------
     # CONFIGURACIÓN DE LA INTERFAZ
     # -----------------------------------------------
-    st.set_page_config(page_title="Análisis Semántico Bicentenario", layout="wide")
+    # st.set_page_config(page_title="Análisis Semántico Bicentenario", layout="wide") #En lo cal lo puedo llamar mas de una vez en cloude no.
     st.title("📊 Análisis Semántico y de Sentimiento")
     st.markdown("""
     Esta plataforma analiza los textos escritos por formadores en el marco del programa **Escuelas Bicentenario**, 

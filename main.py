@@ -625,7 +625,7 @@ if selected == "Sentimiento de texto":  #"Unir PDFs":
         else:
             st.warning("No hay docentes con texto analizado en los campos seleccionados.")
 
-          """  
+         """  
            #---BACKEND--- 
            # Variables
            output_pdf = "documents/pdf_final.pdf"
@@ -648,13 +648,13 @@ if selected == "Sentimiento de texto":  #"Unir PDFs":
            st.header("Unir PDF")                      # Agrega un encabezado en la insterfaz de usuario
            st.subheader("Adjuntar pdfs para unir")    # Agrega un subencabezado en la insterfaz de usuario
         
-        # Crea un area para que el usuario carge varios archivos PDF.
+         # Crea un area para que el usuario carge varios archivos PDF.
            pdf_adjuntos = st.file_uploader(label="",accept_multiple_files=True)
         
-        # Crea un boton para "Unir PDFs".
+         # Crea un boton para "Unir PDFs".
            unir = st.button(label="Unir PDFs")
         
-        #--triger
+         #--triger
         
            if unir: 
               # Comienza un bloque condicional si se hace clic en el boton "Unir PDFs".
@@ -670,7 +670,7 @@ if selected == "Sentimiento de texto":  #"Unir PDFs":
                       # Muestra un boton de descarga para que el usuario pueda descargar el PDF final combinado 
                       st.download_button(label="Descargar PDF final", data=pdf_data, file_name="pdf_final.pdf") 
                       st.balloons()
-          """
+         """
 if selected == "Cuenta":
    #st.image(imagen_usuario, caption="")
    #st.subheaderheader("Cuenta", divider=True)        # Muestra un encabezado en la interfaz

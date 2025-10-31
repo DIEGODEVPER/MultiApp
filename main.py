@@ -33,6 +33,7 @@ import os                 # Importa la biblioteca 'os' para realizar operaciones
 
 from tempfile import NamedTemporaryFile
 
+import seaborn as sns
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from textblob import TextBlob
